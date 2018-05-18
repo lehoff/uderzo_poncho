@@ -12,6 +12,7 @@ ERL_CFLAGS ?= -I$(ERL_EI_INCLUDE_DIR)
 ERL_LDFLAGS ?= -L$(ERL_EI_LIBDIR)
 
 NANOVG_SRC=c_src/nanovg
+NANOVG_VERSION=6fa3b3d
 
 HW=$(shell uname -m)
 ifeq ($(MIX_TARGET), rpi3)
@@ -24,11 +25,21 @@ else
 LIBNANOVG=$(NANOVG_SRC)/build/libnanovg.a
 endif
 
+# Might have to check on $OS if this should work on Windows.
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	INSTALL_CMD = sudo apt-get install premake4 gperf libglfw3-dev libgles2-mesa-dev libglew-dev libfreetype6-dev
+endif
+ifeq ($(UNAME_S),Darwin)
+	INSTALL_CMD = brew install premake glew glfw freetype
+endif
+
 
 default: priv compile
 
 setup:
-	sudo apt-get install premake4 gperf libglfw3-dev libgles2-mesa-dev libglew-dev libfreetype6-dev
+	$(INSTALL_CMD)
+	(cd c_src; git clone https://github.com/memononen/nanovg.git; cd nanovg; git checkout $(NANOVG_VERSION))
 	(cd $(NANOVG_SRC); premake4 gmake)
 
 # TODO non-debug builds for e.g. prod Mix env?
