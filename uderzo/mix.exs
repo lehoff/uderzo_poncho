@@ -42,14 +42,10 @@ defmodule Uderzo.Mixfile do
   end
 
   defp make_env() do
-    case System.get_env("ERL_EI_INCLUDE_DIR") do
-      nil ->
-        %{
-          "ERL_EI_INCLUDE_DIR" => "#{:code.root_dir()}/usr/include",
-          "ERL_EI_LIBDIR" => "#{:code.root_dir()}/usr/lib"}
-      _ ->
-        %{}
-    end
+    %{
+      "ERL_EI_INCLUDE_DIR" => System.get_env("ERL_EI_INCLUDE_DIR") || "#{:code.root_dir()}/usr/include",
+      "ERL_EI_LIBDIR" => System.get_env("ERL_EI_LIBDIR") || "#{:code.root_dir()}/usr/lib"
+    }
   end
 
   defp package() do
