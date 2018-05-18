@@ -61,7 +61,12 @@ CFLAGS+=-DUDERZO_VC -DSTANDALONE -D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS 
 LDFLAGS+=-L/opt/vc/lib/ -lbrcmGLESv2 -lbrcmEGL -lopenmaxil -lbcm_host -lvchostif -lvcos -lvchiq_arm -lpthread -lrt -lm 
 INCLUDES+=-I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/src/hello_pi/libs/ilclient -I/opt/vc/src/hello_pi/libs/vgfont
 else
-LDFLAGS+=-lglfw -lGL -lGLU -lm -lGLEW
+ifeq ($(UNAME_S),Linux)
+	LDFLAGS+=-lglfw -lGL -lGLU -lm -lGLEW
+endif
+ifeq ($(UNAME_S),Darwin)
+	LDFLAGS+=-framework OpenGL -lglfw -lglew
+endif
 endif
 
 priv/uderzo: $(C_DEPS) $(LIBNANOVG)
