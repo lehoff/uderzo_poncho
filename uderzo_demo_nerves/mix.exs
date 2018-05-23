@@ -7,7 +7,7 @@ defmodule UderzoDemoNerves.MixProject do
     [
       app: :uderzo_demo_nerves,
       version: "0.1.0",
-      elixir: "~> 1.4",
+      elixir: "~> 1.6",
       target: @target,
       archives: [nerves_bootstrap: "~> 1.0"],
       deps_path: "deps/#{@target}",
