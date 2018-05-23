@@ -1,6 +1,6 @@
 # Makefile fragment to configure an uderzo library or client build.
 
-UNAME_S := $(shell uname -s) 
+SYSTEM := $(shell uname -s) 
 
 # Set Erlang-specific compile and linker flags passed from Mix
 ifeq ($(ERL_EI_INCLUDE_DIR),)
@@ -19,10 +19,10 @@ LDFLAGS+=-L/opt/vc/lib/ -lbrcmGLESv2 -lbrcmEGL -lopenmaxil -lbcm_host -lvchostif
 INCLUDES+=-I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/src/hello_pi/libs/ilclient -I/opt/vc/src/hello_pi/libs/vgfont
 else
 # Native build using GLFW and similar goodies
-ifeq ($(UNAME_S),Linux) 
+ifeq ($(SYSTEM),Linux) 
   LDFLAGS+=-lglfw -lGL -lGLU -lm -lGLEW 
 endif 
-ifeq ($(UNAME_S),Darwin) 
+ifeq ($(SYSTEM),Darwin) 
   LDFLAGS+=-framework OpenGL -lglfw -lglew 
   CC=gcc-8
 endif 
