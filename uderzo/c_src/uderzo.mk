@@ -1,7 +1,5 @@
 # Makefile fragment to configure an uderzo library or client build.
 
-SYSTEM := $(shell uname -s) 
-
 # Set Erlang-specific compile and linker flags passed from Mix
 ifeq ($(ERL_EI_INCLUDE_DIR),)
 $(error ERL_EI_INCLUDE_DIR not set. Invoke via mix or set it manually)
@@ -19,15 +17,17 @@ LDFLAGS+=-L/opt/vc/lib/ -lbrcmGLESv2 -lbrcmEGL -lopenmaxil -lbcm_host -lvchostif
 INCLUDES+=-I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I/opt/vc/src/hello_pi/libs/ilclient -I/opt/vc/src/hello_pi/libs/vgfont
 else
 # Native build using GLFW and similar goodies
-ifeq ($(SYSTEM),Linux) 
-  LDFLAGS+=-lglfw -lGL -lGLU -lm -lGLEW 
+ifeq ($(shell uname -s),Linux) 
+LDFLAGS+=-lglfw -lGL -lGLU -lm -lGLEW 
 endif 
-ifeq ($(SYSTEM),Darwin) 
-  LDFLAGS+=-framework OpenGL -lglfw -lglew 
-  CC=gcc-8
+ifeq ($(shell uname -s),Darwin)
+$(warning inside Darwin)
+LDFLAGS+=-framework OpenGL -lglfw -lglew 
 endif 
 endif
 
 # For the benefit of clients:
 UDERZO_CFLAGS = -I$(UDERZO_DIR) $(ERL_CFLAGS) -I$(CLIXIR_DIR) $(INCLUDES)
 UDERZO_LDFLAGS = -L$(UDERZO_DIR) -lnanovg -lfreetype -lpng -lz -L$(CLIXIR_DIR) -lclixir $(ERL_LDFLAGS) -lerl_interface -lei $(LDFLAGS)
+
+$(warning UDERZO_LDFLAGS is $(UDERZO_LDFLAGS))

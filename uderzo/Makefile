@@ -35,10 +35,9 @@ C_DEPS := $(wildcard c_src/*.c c_src/*.cx c_src/*.h c_src/*.hx)
 
 priv/clixir: $(C_DEPS) $(LIBNANOVG)
 	LANG=C $(CC) -g $(CFLAGS) \
-    -I$(NANOVG_SRC)/src $(ERL_CFLAGS) -I$(CLIXIR_DIR) $(INCLUDES) \
-    -o priv/clixir c_src/uderzo.c \
-    $(LIBNANOVG) -lfreetype -lpng -lz \
-    -L$(CLIXIR_DIR) -lclixir \
-    $(ERL_LDFLAGS) -lerl_interface -lei \
-   	-framework OpenGL -lglfw -lglew 
-	# $(LDFLAGS)
+		 -I$(NANOVG_SRC)/src $(ERL_CFLAGS) -I$(CLIXIR_DIR) $(INCLUDES) \
+		 -o priv/clixir c_src/uderzo.c \
+		 $(LIBNANOVG) -lfreetype -lpng -lz \
+		 -L$(CLIXIR_DIR) -lclixir \
+		 $(ERL_LDFLAGS) -lerl_interface -lei \
+		 $(LDFLAGS)
